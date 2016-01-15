@@ -135,17 +135,17 @@ bool node<KEY,VALUE>::operator!=(const baseNode &x) const
 \
 
 template<typename T, typename U>
-ostream& operator<<(ostream& out, const node<T,U> &theNode)
+ostream& operator<<(ostream& out, const node<T,U> &theNode) // LHS cout << RHS object
 {
     if(out == cout)
-        out<<"Key: "<<*(T*)theNode.first<<" Value: "<<theNode.value;
+        out<<"Key: "<<*(T*)theNode.first<<" Value: "<< theNode.value; // note the *(T*) dereferences and converts to type T* (basically it converts in a roundabout way)
     else
         out<<"["<<*(T*)theNode.first<<" \007 "<<theNode.value<<"]";
     return out;
 }
 
 template<typename T, typename U>
-istream& operator>>(istream& in, node<T,U> &theNode)
+istream& operator>>(istream& in, node<T,U> &theNode) // LHS cin >> RHS object
 {
     if(!theNode.first)
         theNode.first = new T();
@@ -156,7 +156,7 @@ istream& operator>>(istream& in, node<T,U> &theNode)
         cout<<"Value: ";
         in>>theNode.value;
      }
-   else
+   else // what sure what this is...
    {
         stringstream ss;
         string line;
