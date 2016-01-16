@@ -7,8 +7,6 @@ int main ()
 {
     cout<<"Starting the demonstration program"<<endl;
 
-//    myMap<char,string>* mymap = new myMap<char,string>;
-
     myMap<char,string> mymap;
 
     cout<<"Safely declared a myMap"<<endl;
@@ -24,7 +22,7 @@ int main ()
     cout << "mymap['c'] is " << mymap['c'] << endl;
     cout << "mymap['d'] is " << mymap['d'] << endl;
 
-    cout << "mymap now contains " << mymap.size() << " elements.\n";
+    cout << "mymap now contains " << mymap.size() << " elements.\n\n";
 
     myMap<string,int> mymap2;
 
@@ -37,7 +35,7 @@ int main ()
     cout << "mymap2[\"three\"] is " << mymap2["three"] << endl;
     cout << "mymap2[\"four\"] is " << mymap2["four"] << endl;
 
-    cout << "mymap2 now contains " << mymap2.size() << " elements.\n";
+    cout << "mymap2 now contains " << mymap2.size() << " elements.\n\n";
 
     return 0;
 }

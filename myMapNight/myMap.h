@@ -56,7 +56,6 @@ myMap<K,V>::myMap(const myMap<K,V> &other)
 template<typename K, typename V>
 myMap<K,V>& myMap<K,V>::operator=(const myMap<K,V> &other)
 {
-    cout << "operator=\n";
     if(this != *other)
     {
         nukem();
@@ -105,21 +104,31 @@ const V& myMap<K,V>::operator[](const K& index) const
 }
 
 
-// need to include a try clause
+// +++++++++++++++++++++++++++++++++++++++++++
 template<typename K, typename V>
 V& myMap<K,V>::operator[](const K& index)
 {
-    cout << "V& (not const) operator[]\n";
-
-    baseNode *ptr = find(index);
-    if(!ptr)
+    baseNode *ptr;
+    try
     {
-        V value; // how does this get assigned? because the operator= needs to be called ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        insert(index,value);
-        return value;
+        ptr = find(index);
+
+        if(!ptr)
+        {
+            throw NOT_FOUND;
+        }
+
     }
-    else
-        return ((node<K,V>*)ptr)->theValue();
+    catch(...)
+    {
+        V value;
+        node<K,V>* x = new node<K,V>(index, value);
+        ptr = x; // for some reason this works, but I'm not too sure
+        linkedList::insert(ptr);
+    }
+
+
+    return ((node<K,V>*)ptr)->theValue();
 
 }
 

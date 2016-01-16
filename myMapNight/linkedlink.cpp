@@ -35,16 +35,18 @@ unsigned int linkedList::max_size()
 }
 
 
+// had to fix the insert
 void linkedList::insert(baseNode *whom)
 {
-    std::cout << "linkedList insert\n";
+    qty++;
+
+    // if it's empty, use the parameter to set the first one
     if (!qty)
     {
-        anchor = whom;
+        anchor->setFirst(whom);
     }
     else
     {
-        qty++;
         // going to get the anchor's next node
         baseNode *ptr = anchor;
 
@@ -54,14 +56,13 @@ void linkedList::insert(baseNode *whom)
         // if not found, insert at the end
         if(!ptr)
         {
-//                qty++;
             ptr->nextNode() = whom;
             return;
         }
+        // or just set it in between nodes
         whom->nextNode() = ptr->nextNode();
         ptr->nextNode() = whom;
     }
-//    qty++;
 }
 
 void linkedList::erase(void *whom)
