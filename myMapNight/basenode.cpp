@@ -3,6 +3,7 @@
 baseNode::baseNode()
 {
     first = next = NULL;
+
 }
 
 baseNode::~baseNode()

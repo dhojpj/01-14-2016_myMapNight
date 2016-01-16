@@ -3,10 +3,14 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
-    basenode.cpp
+SOURCES += \
+    basenode.cpp \
+    linkedlink.cpp \
+    main.cpp
 
 HEADERS += \
     basenode.h \
-    node.h
+    node.h \
+    linkedlink.h \
+    myMap.h
 
