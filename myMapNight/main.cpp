@@ -24,6 +24,14 @@ int main ()
 
     cout << "mymap now contains " << mymap.size() << " elements.\n\n";
 
+//    cout << mymap << endl;
+
+    mymap.erase('a');
+
+    cout << mymap << endl;
+
+    cout << "mymap now contains " << mymap.size() << " elements.\n\n";
+
     myMap<string,int> mymap2;
 
     mymap2["one"]= 1;
@@ -36,6 +44,8 @@ int main ()
     cout << "mymap2[\"four\"] is " << mymap2["four"] << endl;
 
     cout << "mymap2 now contains " << mymap2.size() << " elements.\n\n";
+
+    cout << mymap2 << endl;
 
     return 0;
 }

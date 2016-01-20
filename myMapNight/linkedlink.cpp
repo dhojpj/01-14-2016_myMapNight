@@ -40,36 +40,27 @@ void linkedList::insert(baseNode *whom)
 {
     qty++;
 
-    // if it's empty, use the parameter to set the first one
-    if (!qty)
-    {
-        anchor->setFirst(whom);
-    }
-    else
-    {
-        // going to get the anchor's next node
-        baseNode *ptr = anchor;
+    baseNode *ptr = anchor;
 
-        // searching
-        for(; ptr->nextNode() && ptr->nextNode()->getFirst() < whom->getFirst(); ptr = ptr->nextNode());
+    // searching
+    for(; ptr->nextNode() && ptr->nextNode()->getFirst() < whom->getFirst(); ptr = ptr->nextNode());
 
-        // if not found, insert at the end
-        if(!ptr)
-        {
-            ptr->nextNode() = whom;
-            return;
-        }
-        // or just set it in between nodes
-        whom->nextNode() = ptr->nextNode();
+    // if not found, insert at the end
+    if(!ptr)
+    {
         ptr->nextNode() = whom;
+        return;
     }
+    // or just set it in between nodes
+    whom->nextNode() = ptr->nextNode();
+    ptr->nextNode() = whom;
 }
 
 void linkedList::erase(void *whom)
 {
-    baseNode *ptr = anchor, *bye;
+    baseNode *ptr = anchor->nextNode(), *bye;
     for(; ptr->nextNode() && ptr->nextNode() < whom; ptr = ptr->nextNode());
-    if(!ptr->nextNode() || ptr->nextNode()->getFirst() != whom)
+    if(!ptr->nextNode() || ptr->nextNode() != whom)
         throw NOT_FOUND;
     bye = ptr->nextNode();
     ptr->nextNode() = bye->nextNode();

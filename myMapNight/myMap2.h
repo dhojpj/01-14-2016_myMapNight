@@ -22,7 +22,7 @@ public:
     V& operator[](const K& index);
     const V& operator[](const K& index) const;
     void insert(const K& key, const V& value);
-    void erase(K key);
+    void erase(const K& key);
     void clear();
 
     template<typename k, typename v>
@@ -69,85 +69,81 @@ baseNode* myMap<K,V>::find(const K& index)
 {
     baseNode *ptr = anchor->nextNode();
 
-    for(;ptr && *(K*)(ptr->getFirst()) != index; ptr = ptr->nextNode());
-
-    if(!ptr)
-        throw NOT_FOUND;
+    try
+    {
+        for(;ptr && *(K*)(ptr->getFirst()) != index; ptr = ptr->nextNode());
+        if(!ptr)
+            throw NOT_FOUND;
+    }
+    catch(...)
+    {
+        ptr = NULL;
+    }
 
     return ptr;
 }
 
-// returning value
-// this doesn't get called...
+
 template<typename K, typename V>
 const V& myMap<K,V>::operator[](const K& index) const
 {
-    baseNode *ptr;
+    cout << "const V& operator[]\n";
+    baseNode *ptr = find(index);
 
-    ptr = find(index);
-    if(!ptr)
-        throw NOT_FOUND;
+    try
+    {
+        if(!ptr)
+            throw NOT_FOUND;
+    }
+    catch(...)
+    {
+        // if not found???
+    }
 
     return ((node<K,V>*)ptr)->theValue();
 }
 
 
-// if blank, puts the value into the node and returns it
+// +++++++++++++++++++++++++++++++++++++++++++
 template<typename K, typename V>
 V& myMap<K,V>::operator[](const K& index)
 {
     baseNode *ptr;
-
     try
     {
         ptr = find(index);
+
+        if(!ptr)
+        {
+            throw NOT_FOUND;
+        }
+
     }
     catch(...)
     {
-        // create if nothing is found
         V value;
         node<K,V>* x = new node<K,V>(index, value);
-        ptr = x; // parent can take a child pointer
+        ptr = x; // for some reason this works, but I'm not too sure
         linkedList::insert(ptr);
     }
 
 
     return ((node<K,V>*)ptr)->theValue();
+
 }
 
 template<typename K, typename V>
 void myMap<K,V>::insert(const K& key, const V& value)
 {
     node<K,V> *ptr = new node<K,V>(key,value);
-    linkedList::insert(ptr); // static function
+    linkedList::insert(ptr);
 }
 
-
 template<typename K, typename V>
-void myMap<K,V>::erase(K key)
+void myMap<K,V>::erase(const K& key)
 {
-    //    void *whom = f; //HINT: Here is an "issue"
-    baseNode *f;
-
-    try
-    {
-        f = find(key);
-    }
-    catch(...)
-    {
-        cout << "Error: Key not found\n";
-//        exit(101);
-    }
-
-    try
-    {
-        linkedList::erase(f);
-    }
-    catch(...)
-    {
-        cout << "Error: Nothing to erase\n";
-    }
-
+    void *whom = &key; //HINT: Here is an "issue"
+    erase(whom);
 
 }
 
@@ -185,7 +181,7 @@ ostream& operator<<(ostream &out, const myMap<k,v> &other)
 {
     baseNode *ptr = other.anchor->nextNode();
     for(; ptr; ptr=ptr->nextNode())
-        out<<*(node<k,v>*)ptr << std::endl;
+        out<<*(node<k,v>*)ptr;
     return out;
 }
 
