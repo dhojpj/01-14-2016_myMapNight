@@ -155,9 +155,9 @@ istream& operator>>(istream& in, node<T,U> &theNode) // LHS cin >> RHS object
         in>>*(T*)theNode.first;
         cout<<"Value: ";
         in>>theNode.value;
-    }
-    else // what sure what this is...
-    {
+     }
+   else // what sure what this is...
+   {
         stringstream ss;
         string line;
         getline(in,line,']');

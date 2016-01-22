@@ -34,9 +34,10 @@ public:
     istream& operator>>(istream &in, myMap<k,v> &other);
 
 private:
+
     void copy(const myMap<K,V> &other);
     void nukem();
-    baseNode* find(const K& index);
+    baseNode * find(const K& index);
 };
 
 template<typename K, typename V>
@@ -104,8 +105,8 @@ V& myMap<K,V>::operator[](const K& index)
     catch(...)
     {
         // create if nothing is found
-//        V value;
-        node<K,V>* x = new node<K,V>(index, V());
+        V value;
+        node<K,V>* x = new node<K,V>(index, value);
         ptr = x; // parent can take a child pointer
         linkedList::insert(ptr);
     }
@@ -125,17 +126,17 @@ void myMap<K,V>::insert(const K& key, const V& value)
 template<typename K, typename V>
 void myMap<K,V>::erase(K key)
 {
-    baseNode *f;    //    void *whom = f; //HINT: Here is an "issue"
+    //    void *whom = f; //HINT: Here is an "issue"
+    baseNode *f;
 
     try
     {
         f = find(key);
-        std::cout << "myMap f = " << f << std::endl;
     }
     catch(...)
     {
-        cout << "Error: Key not found, nothing to erase\n\n";
-        return;
+        cout << "Error: Key not found\n";
+//        exit(101);
     }
 
     try
@@ -144,36 +145,8 @@ void myMap<K,V>::erase(K key)
     }
     catch(...)
     {
-        cout << "Nothing to be erased\n\n";
-        return;
+        cout << "Error: Nothing to erase\n";
     }
-
-
-//    void *whom;
-
-
-//    try
-//    {
-//        whom = find(key);
-//    }
-//    catch(...)
-//    {
-//        cout << "Error, key not found\n\n";
-//        return;
-//    }
-
-
-//    try
-//    {
-//        linkedList::erase(whom);
-//    }
-//    catch(...)
-//    {
-//        cout << "Error, nothing to erase\n\n";
-//        return;
-//    }
-
-
 
 
 }
@@ -220,12 +193,8 @@ template<typename k, typename v>
 istream& operator>>(istream &in, myMap<k,v> &other)
 {
     node<k,v> newNode;
-
-//    while(in>>newNode)
-    in>>newNode; // removed while loop
-
-    other.insert(newNode.theKey(), newNode.theValue());
-
+    while(in>>newNode)
+        insert(newNode.theKey(), newNode.theValue());
     return in;
 }
 

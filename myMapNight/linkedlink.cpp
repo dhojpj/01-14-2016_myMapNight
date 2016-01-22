@@ -42,28 +42,68 @@ void linkedList::insert(baseNode *whom)
 
     baseNode *ptr = anchor;
 
-    // searching
+    // searching if nextNode exists and its first less than whom's first
     for(; ptr->nextNode() && ptr->nextNode()->getFirst() < whom->getFirst(); ptr = ptr->nextNode());
 
     // if not found, insert at the end
     if(!ptr)
     {
         ptr->nextNode() = whom;
-        return;
+//        return;
     }
-    // or just set it in between nodes
-    whom->nextNode() = ptr->nextNode();
-    ptr->nextNode() = whom;
+    else
+    {
+        // or just set it in between nodes
+        whom->nextNode() = ptr->nextNode();
+        ptr->nextNode() = whom;
+    }
 }
 
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void linkedList::erase(void *whom)
 {
-    baseNode *ptr = anchor->nextNode(), *bye;
-    for(; ptr->nextNode() && ptr->nextNode() < whom; ptr = ptr->nextNode());
-    if(!ptr->nextNode() || ptr->nextNode() != whom)
+    baseNode *ptr = anchor, *bye;
+
+    // finds the address of whom
+//    std::cout << ptr->nextNode() << std::endl;
+//    std::cout << whom << std::endl;
+
+//    std::cin.get();
+    // if pointer exists and next < whom
+    // why go through this again if already found the key?
+
+    // iterators through to get the previous address
+    for(; ptr->nextNode() && (ptr->nextNode() < whom); ptr = ptr->nextNode());
+//    {
+//        std::cout << "iterator = " << ptr->nextNode() << std::endl;
+//        std::cout << "whom parameter = " << whom << std::endl;
+//        std::cin.get();
+//    }
+
+//    std::cout << "done\n";
+
+//    std::cout << "iterator = " << ptr << std::endl;
+//    std::cout << "whom parameter = " << whom << std::endl;
+//    std::cout << "iterator->next = " << ptr->nextNode() << std::endl;
+
+
+//    std::cin.get();
+
+    // if previous node does not exist, something is weird
+    if(!ptr)
+    {
         throw NOT_FOUND;
-    bye = ptr->nextNode();
-    ptr->nextNode() = bye->nextNode();
+//        return;
+    }
+
+    bye = ptr->nextNode(); // bye is the whom address to be deleted
+    ptr->nextNode() = bye->nextNode(); // the next nextnode is the one after bye
+
+
+
     delete bye;
+
+
     qty--;
 }
